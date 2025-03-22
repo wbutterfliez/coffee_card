@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 
-class CofPrefs extends StatelessWidget {
+class CofPrefs extends StatefulWidget {
   const CofPrefs({super.key});
 
+  @override
+  State<CofPrefs> createState() => _CofPrefsState();
+}
+
+class _CofPrefsState extends State<CofPrefs> {
+  int strength = 1;
+  int sugar = 1;
+
   void incbeans() {
-    print('Increase beans by 1');
+    setState(() {
+      strength = strength < 5 ? strength + 1 : 1;
+    });
   }
 
   void incsugs() {
-    print('Increase sugar by 1');
+    setState(() {
+      sugar = sugar < 5 ? sugar + 1 : 0;
+    });
   }
 
   @override
@@ -18,13 +30,13 @@ class CofPrefs extends StatelessWidget {
         Row(
           children: [
             const Text('Strength: '),
-            const Text('3'),
-            Image.asset(
-              'assets/img/coffee_bean.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
-            ),
+            for (int i = 0; i < strength; i++)
+              Image.asset(
+                'assets/img/coffee_bean.png',
+                width: 25,
+                color: Colors.brown[100],
+                colorBlendMode: BlendMode.multiply,
+              ),
             const Expanded(child: SizedBox()),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -40,13 +52,14 @@ class CofPrefs extends StatelessWidget {
         Row(
           children: [
             const Text('Sugar: '),
-            const Text('3'),
-            Image.asset(
-              'assets/img/sugar_cube.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
-            ),
+            if (sugar == 0) const Text('No sugar!'),
+            for (int i = 0; i < sugar; i++)
+              Image.asset(
+                'assets/img/sugar_cube.png',
+                width: 25,
+                color: Colors.brown[100],
+                colorBlendMode: BlendMode.multiply,
+              ),
             const Expanded(child: SizedBox()),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
